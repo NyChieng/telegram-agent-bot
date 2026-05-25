@@ -4,6 +4,7 @@ import { createAskCommandHandler, extractAskText } from "./commands/ask.js";
 import { createHelpCommandHandler, createStartCommandHandler } from "./commands/help.js";
 import { createModeCommandHandler, createModeStore } from "./commands/mode.js";
 import { buildSystemPrompt, loadPersonaPrompt } from "./persona/maoZedong.js";
+import { EMPTY_MENTION_REPLY, GENERATION_ERROR_REPLY } from "./persona/replies.js";
 import { checkSafety } from "./persona/safetyRules.js";
 import { getMessageText, shouldHandleMessage, stripBotMention } from "./utils/messageFilter.js";
 import { logger as defaultLogger } from "./utils/logger.js";
@@ -48,9 +49,7 @@ export async function createBot({ config, llmProvider, logger = defaultLogger })
       await ctx.reply(reply);
     } catch (error) {
       logger.error("LLM generation failed", { error: error.message });
-      await ctx.reply(
-        "同志，通信线路出了问题，不是你的问题。稍后再问一次，我继续分析主要矛盾。"
-      );
+      await ctx.reply(GENERATION_ERROR_REPLY);
     }
   }
 
@@ -75,10 +74,24 @@ export async function createBot({ config, llmProvider, logger = defaultLogger })
       decision.reason === "ask"
         ? extractAskText(messageText)
         : stripBotMention(messageText, botInfo.username);
+
+    if (decision.reason === "mention") {
+      logger.info("Bot mention handled", {
+        incomingText: messageText,
+        botUsername: botInfo.username,
+        strippedPrompt: text,
+        decisionReason: decision.reason
+      });
+    }
+
     const images = await getPhotoInputs(ctx);
 
     if (!text && images.length === 0) {
-      await ctx.reply("同志，问题还没有摆到桌面上。请用 /ask <message> 把问题说清楚。");
+      await ctx.reply(
+        decision.reason === "mention"
+          ? EMPTY_MENTION_REPLY
+          : "同志，问题还没有摆到桌面上。请用 /ask <message> 把问题说清楚。"
+      );
       return;
     }
 

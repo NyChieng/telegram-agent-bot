@@ -80,6 +80,20 @@ npm test
 
 For photos in groups, mention the bot in the caption, reply to the bot with a photo, or use `/ask <question>` in the photo caption. Private chats can send a photo directly.
 
+In group chats, users can talk to the bot naturally by mentioning it:
+
+```text
+@MaoZeDong1bot <message>
+```
+
+Example:
+
+```text
+@MaoZeDong1bot 你好
+```
+
+This behaves like `/ask@MaoZeDong1bot 你好`; the mention is stripped before the message is sent to the model. For plain `@mentions` to work in groups, Telegram Group Privacy Mode should be disabled in BotFather, or the bot should be added as an admin.
+
 ## Commands
 
 - `/start` - introduce the bot.
