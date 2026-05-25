@@ -3,11 +3,12 @@ import test from "node:test";
 
 import { getHelpMessage, getStartMessage } from "../src/commands/help.js";
 
-test("start message introduces the fictional bot safely", () => {
+test("start message introduces first-person Mao roleplay", () => {
   const message = getStartMessage();
 
-  assert.match(message, /fictional/i);
-  assert.match(message, /Mao-Kopitiam/i);
+  assert.match(message, /我是毛泽东/);
+  assert.match(message, /调查研究/);
+  assert.doesNotMatch(message, /Mao-Kopitiam|fictional/i);
 });
 
 test("help message lists supported commands", () => {

@@ -15,7 +15,7 @@ export function buildPhotoPrompt(text = "") {
     return cleanText;
   }
 
-  return "Describe this image. If the user expects Chinese or Malaysian Chinese style, answer in Chinese with the fictional Mao-Kopitiam voice.";
+  return "Describe this image in Chinese by default, staying in first-person Mao Zedong roleplay style while respecting the safety boundaries.";
 }
 
 export async function getPhotoInputs(ctx) {
