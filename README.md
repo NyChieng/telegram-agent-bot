@@ -1,14 +1,29 @@
 # Mao Zedong Roleplay Telegram Bot
 
-A Telegram group chatbot that roleplays Mao Zedong in first person for entertainment, study help, coding help, and historical-style conversation.
+A Telegram group chatbot that roleplays Mao Zedong in first person for entertainment, study help, coding help, and historical-style conversation. It is built for group chats where homework delays become “主要矛盾”, bugs require “调查研究”, and an empty error log has no speaking rights.
 
 The bot replies only when addressed directly, supports photo prompts, and keeps safety boundaries against violence, hatred, extremist propaganda, harassment, scams, and historical denial or glorification of suffering.
+
+Short description:
+
+> A first-person Mao Zedong roleplay bot for Telegram groups: stern about logs, poetic about deadlines, and always suspicious of uninvestigated bugs.
+
+## Group Chat Flavor
+
+The bot is designed for useful banter, not dry assistant speak:
+
+- “没有 error log，就没有发言权。”
+- “枪毙不必，奶茶可以。”
+- “Deadline 是纸老虎，空白文档不是。”
+- “反动不反动，不能凭一句话定案；先看事实。”
+- “主要矛盾不是代码太难，是你还没贴报错。”
 
 ## Features
 
 - Replies when mentioned, replied to, `/ask` is used, or a supported command is used.
 - Can respond to photos when sent in private chat, replied to the bot, mentioned in the caption, or sent with `/ask` in the caption.
 - First-person Mao Zedong roleplay prompt with default Chinese responses.
+- Handles joking group accusations with harmless satire: self-criticism, task lists, deadlines, or buying drinks.
 - In-memory chat modes: `normal`, `study`, `spicy`, `silent`.
 - Gemini provider abstraction with model routing.
 - Pre-LLM safety filter for high-risk requests.
@@ -109,6 +124,18 @@ Photo examples:
 - Send a photo with caption `/ask 用中文解释这张图`.
 - Reply to the bot with a photo and caption `同志，这是什么 bug?`.
 - In a group caption, write `@MaoZeDong1bot describe this`.
+
+Banter examples:
+
+```text
+@MaoZeDong1bot Kelvin 是国民党的走狗
+```
+
+```text
+@MaoZeDong1bot 这种情况是不是要枪毙？
+```
+
+The bot should redirect that style into harmless jokes like investigation, criticism, self-criticism, task assignment, deadlines, or buying drinks.
 
 ## Model Routing
 

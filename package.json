@@ -1,7 +1,7 @@
 {
   "name": "telegram-agent-bot",
   "version": "0.1.0",
-  "description": "Mao Zedong first-person Telegram roleplay chatbot built with Telegraf and Gemini.",
+  "description": "First-person Mao Zedong Telegram roleplay bot: investigates bugs, names the main contradiction, and turns group banter into harmless satire.",
   "type": "module",
   "main": "src/index.js",
   "scripts": {
@@ -13,7 +13,10 @@
     "telegram",
     "telegraf",
     "gemini",
-    "chatbot"
+    "chatbot",
+    "roleplay",
+    "mao-zedong",
+    "group-chat"
   ],
   "author": "",
   "license": "MIT",
