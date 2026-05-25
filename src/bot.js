@@ -1,12 +1,13 @@
 import { Telegraf } from "telegraf";
 
-import { createAskCommandHandler } from "./commands/ask.js";
+import { createAskCommandHandler, extractAskText } from "./commands/ask.js";
 import { createHelpCommandHandler, createStartCommandHandler } from "./commands/help.js";
 import { createModeCommandHandler, createModeStore } from "./commands/mode.js";
 import { buildSystemPrompt, loadPersonaPrompt } from "./persona/maoKopitiam.js";
 import { checkSafety } from "./persona/safetyRules.js";
 import { getMessageText, shouldHandleMessage, stripBotMention } from "./utils/messageFilter.js";
 import { logger as defaultLogger } from "./utils/logger.js";
+import { buildPhotoPrompt, getPhotoInputs, hasPhoto } from "./utils/photoInput.js";
 
 export async function createBot({ config, llmProvider, logger = defaultLogger }) {
   const bot = new Telegraf(config.telegramBotToken);
@@ -14,7 +15,7 @@ export async function createBot({ config, llmProvider, logger = defaultLogger })
   const persona = await loadPersonaPrompt();
   const botInfo = await bot.telegram.getMe();
 
-  async function answerQuestion(ctx, rawText) {
+  async function answerQuestion(ctx, rawText, options = {}) {
     const chatId = ctx.chat?.id ?? ctx.message?.chat?.id;
     const mode = modeStore.getMode(chatId);
     const safety = checkSafety(rawText);
@@ -36,6 +37,7 @@ export async function createBot({ config, llmProvider, logger = defaultLogger })
       const reply = await llmProvider.generate({
         systemPrompt,
         prompt: rawText,
+        images: options.images ?? [],
         metadata: {
           chatId,
           mode,
@@ -60,18 +62,27 @@ export async function createBot({ config, llmProvider, logger = defaultLogger })
   bot.on("message", async (ctx) => {
     const decision = shouldHandleMessage(ctx, botInfo);
 
-    if (!decision.shouldHandle || decision.reason === "command" || decision.reason === "ask") {
+    if (
+      !decision.shouldHandle ||
+      decision.reason === "command" ||
+      (decision.reason === "ask" && !hasPhoto(ctx))
+    ) {
       return;
     }
 
-    const text = stripBotMention(getMessageText(ctx), botInfo.username);
+    const messageText = getMessageText(ctx);
+    const text =
+      decision.reason === "ask"
+        ? extractAskText(messageText)
+        : stripBotMention(messageText, botInfo.username);
+    const images = await getPhotoInputs(ctx);
 
-    if (!text) {
+    if (!text && images.length === 0) {
       await ctx.reply("Aiyo, mention already but no question. Use /ask <message> lah.");
       return;
     }
 
-    await answerQuestion(ctx, text);
+    await answerQuestion(ctx, buildPhotoPrompt(text), { images });
   });
 
   bot.catch((error, ctx) => {

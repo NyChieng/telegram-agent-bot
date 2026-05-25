@@ -3,6 +3,7 @@ import test from "node:test";
 
 import { createLlmProvider } from "../src/llm/provider.js";
 import {
+  buildGeminiContents,
   buildGeminiModelCandidates,
   isRetryableGeminiModelError
 } from "../src/llm/gemini.js";
@@ -55,4 +56,21 @@ test("Gemini provider treats unavailable and quota model errors as retryable", (
   assert.equal(isRetryableGeminiModelError(new Error("code\":404")), true);
   assert.equal(isRetryableGeminiModelError(new Error("code\":429")), true);
   assert.equal(isRetryableGeminiModelError(new Error("network timeout")), false);
+});
+
+test("Gemini contents support text-only prompts", () => {
+  assert.deepEqual(buildGeminiContents({ prompt: "hello" }), "hello");
+});
+
+test("Gemini contents support inline image data with text prompts", () => {
+  assert.deepEqual(
+    buildGeminiContents({
+      prompt: "Describe this",
+      images: [{ mimeType: "image/jpeg", data: "abc123" }]
+    }),
+    [
+      { inlineData: { mimeType: "image/jpeg", data: "abc123" } },
+      { text: "Describe this" }
+    ]
+  );
 });

@@ -11,11 +11,16 @@ const CASUAL_PATTERNS = [
 export function routeGeminiModel({
   message = "",
   mode = "normal",
+  hasImages = false,
   defaultModel = "gemini-3.5-flash",
   fastModel = "gemini-3.1-flash-lite",
   reasoningModel = "gemini-3.1-pro-preview"
 } = {}) {
   const text = String(message).trim();
+
+  if (hasImages) {
+    return defaultModel;
+  }
 
   if (!text) {
     return fastModel;

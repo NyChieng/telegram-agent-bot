@@ -16,7 +16,7 @@ export function createGeminiProvider({
     name: "gemini",
     model: geminiModel,
 
-    async generate({ systemPrompt, prompt, metadata = {} }) {
+    async generate({ systemPrompt, prompt, images = [], metadata = {} }) {
       if (!prompt?.trim()) {
         throw new Error("A prompt is required for Gemini generation.");
       }
@@ -26,6 +26,7 @@ export function createGeminiProvider({
       const selectedModel = routeGeminiModel({
         message: prompt,
         mode: metadata.mode,
+        hasImages: images.length > 0,
         defaultModel: geminiModel,
         fastModel: geminiFastModel,
         reasoningModel: geminiReasoningModel
@@ -39,7 +40,8 @@ export function createGeminiProvider({
         ai,
         modelCandidates,
         systemPrompt,
-        prompt
+        prompt,
+        images
       });
 
       const text = response.text?.trim();
@@ -57,19 +59,35 @@ export function buildGeminiModelCandidates({ selectedModel, defaultModel }) {
   return [...new Set([selectedModel, defaultModel].filter(Boolean))];
 }
 
+export function buildGeminiContents({ prompt, images = [] }) {
+  if (images.length === 0) {
+    return prompt;
+  }
+
+  return [
+    ...images.map((image) => ({
+      inlineData: {
+        mimeType: image.mimeType,
+        data: image.data
+      }
+    })),
+    { text: prompt }
+  ];
+}
+
 export function isRetryableGeminiModelError(error) {
   const message = String(error?.message ?? error);
   return /code["']?:\s*(?:404|429)|\b(?:404|429)\b/.test(message);
 }
 
-async function generateWithModelFallbacks({ ai, modelCandidates, systemPrompt, prompt }) {
+async function generateWithModelFallbacks({ ai, modelCandidates, systemPrompt, prompt, images }) {
   let lastError;
 
   for (const model of modelCandidates) {
     try {
       return await ai.models.generateContent({
         model,
-        contents: prompt,
+        contents: buildGeminiContents({ prompt, images }),
         config: {
           systemInstruction: systemPrompt,
           safetySettings: [

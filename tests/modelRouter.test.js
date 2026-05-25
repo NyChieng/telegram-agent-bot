@@ -38,3 +38,10 @@ test("allows fast model for very lightweight normal and spicy mode replies", () 
 test("uses a callable fast model as the built-in lightweight default", () => {
   assert.equal(routeGeminiModel({ message: "ok", mode: "normal" }), "gemini-3.1-flash-lite");
 });
+
+test("routes photo prompts to the default multimodal model instead of fast lightweight", () => {
+  assert.equal(
+    routeGeminiModel({ message: "ok?", mode: "normal", hasImages: true, ...models }),
+    models.defaultModel
+  );
+});

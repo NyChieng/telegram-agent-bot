@@ -5,6 +5,7 @@ Node.js Telegram group chatbot built with Telegraf and Gemini. The bot uses a fi
 ## Features
 
 - Replies only when mentioned, replied to, `/ask` is used, or a supported command is used.
+- Can respond to photos when sent in private chat, replied to the bot, mentioned in the caption, or sent with `/ask` in the caption.
 - In-memory chat modes: `normal`, `study`, `spicy`, `silent`.
 - Gemini provider abstraction with model routing.
 - Pre-LLM safety filter for explicit sexual content, minors, hate, harassment, violence, extremism, real-person impersonation, and propaganda.
@@ -75,6 +76,8 @@ npm test
 3. Mention the bot, reply to the bot, or use `/ask`.
 4. The bot will not respond to every normal group message.
 
+For photos in groups, mention the bot in the caption, reply to the bot with a photo, or use `/ask <question>` in the photo caption. Private chats can send a photo directly.
+
 ## Commands
 
 - `/start` - introduce the bot.
@@ -84,6 +87,12 @@ npm test
 - `/mode study` - clearer explanations and examples.
 - `/mode spicy` - stronger jokes, still safe.
 - `/mode silent` - shortest useful replies.
+
+Photo examples:
+
+- Send a photo with caption `/ask 用中文解释这张图`.
+- Reply to the bot with a photo and caption `同志们，这是什么 bug?`.
+- In a group caption, write `@MaoZeDong1bot describe this`.
 
 ## Model Routing
 

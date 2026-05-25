@@ -66,8 +66,28 @@ test("detects ask command", () => {
 
 test("handles only mentions, replies, ask, and supported commands in groups", () => {
   assert.equal(shouldHandleMessage(textCtx("random group chatter"), botInfo).shouldHandle, false);
+  assert.equal(
+    shouldHandleMessage({ message: { photo: [{ file_id: "p" }], chat: { type: "group", id: -100 } } }, botInfo)
+      .shouldHandle,
+    false
+  );
   assert.equal(shouldHandleMessage(textCtx("@MaoKopitiamBot ping"), botInfo).reason, "mention");
   assert.equal(shouldHandleMessage(textCtx("/ask ping"), botInfo).reason, "ask");
   assert.equal(shouldHandleMessage(textCtx("/mode spicy"), botInfo).reason, "command");
   assert.equal(shouldHandleMessage(textCtx("/unknown ping"), botInfo).shouldHandle, false);
+});
+
+test("handles private photo messages even without captions", () => {
+  const decision = shouldHandleMessage(
+    {
+      message: {
+        photo: [{ file_id: "p" }],
+        chat: { type: "private", id: 1 }
+      }
+    },
+    botInfo
+  );
+
+  assert.equal(decision.shouldHandle, true);
+  assert.equal(decision.reason, "private");
 });

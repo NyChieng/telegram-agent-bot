@@ -103,11 +103,15 @@ export function shouldHandleMessage(ctx, botInfo, supportedCommands = DEFAULT_SU
     return { shouldHandle: true, reason: "reply" };
   }
 
-  if (ctx?.message?.chat?.type === "private" && text.trim()) {
+  if (ctx?.message?.chat?.type === "private" && (text.trim() || hasPhotoMessage(ctx))) {
     return { shouldHandle: true, reason: "private" };
   }
 
   return { shouldHandle: false, reason: "not_addressed" };
+}
+
+function hasPhotoMessage(ctx) {
+  return Array.isArray(ctx?.message?.photo) && ctx.message.photo.length > 0;
 }
 
 function escapeRegExp(value) {
