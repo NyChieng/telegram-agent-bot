@@ -34,11 +34,11 @@ export function parseModeCommand(args = "") {
 
 export function formatModeHelp() {
   return [
-    "Mode campaigns available:",
-    "/mode normal - balanced kopitiam helper",
-    "/mode study - clearer explanations and examples",
-    "/mode spicy - sharper jokes, still safe",
-    "/mode silent - shortest useful replies"
+    "可用模式：",
+    "/mode normal - 平衡回答",
+    "/mode study - 更清楚地讲解和举例",
+    "/mode spicy - 判断更锋利，但仍守边界",
+    "/mode silent - 最短可用回答"
   ].join("\n");
 }
 
@@ -47,13 +47,13 @@ export function createModeCommandHandler(modeStore) {
     const parsed = parseModeCommand(ctx.payload ?? "");
 
     if (!parsed.ok) {
-      await ctx.reply(`${formatModeHelp()}\n\n主要矛盾是 mode 不存在 lah.`);
+      await ctx.reply(`${formatModeHelp()}\n\n主要矛盾是 mode 不存在。`);
       return;
     }
 
     const chatId = ctx.chat?.id ?? ctx.message?.chat?.id;
     modeStore.setMode(chatId, parsed.mode);
-    await ctx.reply(`Mode set to ${parsed.mode}. 新路线确定，大家 steady.`);
+    await ctx.reply(`Mode set to ${parsed.mode}. 路线已定，照此执行。`);
   };
 }
 

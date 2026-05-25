@@ -9,14 +9,14 @@
 - [x] Implement /help
 - [x] Implement /ask
 - [x] Implement /mode
-- [x] Add Mao-Kopitiam system prompt
+- [x] Add Mao Zedong roleplay system prompt
 - [x] Add Gemini provider
 - [x] Add LLM provider abstraction
 - [x] Add basic safety filter
 - [x] Add message filtering
 - [x] Add README
 - [x] Add Gemini model routing
-- [x] Strengthen fictional Mao-inspired voice boundaries
+- [x] Strengthen first-person Mao roleplay boundaries
 
 ## Version 2
 

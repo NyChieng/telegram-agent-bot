@@ -77,6 +77,29 @@ test("handles only mentions, replies, ask, and supported commands in groups", ()
   assert.equal(shouldHandleMessage(textCtx("/unknown ping"), botInfo).shouldHandle, false);
 });
 
+test("handles group messages when someone tags the bot", () => {
+  const decision = shouldHandleMessage(textCtx("同志 @MaoKopitiamBot 这个 bug 怎么看"), botInfo);
+
+  assert.equal(decision.shouldHandle, true);
+  assert.equal(decision.reason, "mention");
+});
+
+test("handles group photo captions when someone tags the bot", () => {
+  const decision = shouldHandleMessage(
+    {
+      message: {
+        caption: "@MaoKopitiamBot 用中文解释这张图",
+        photo: [{ file_id: "p" }],
+        chat: { type: "group", id: -100 }
+      }
+    },
+    botInfo
+  );
+
+  assert.equal(decision.shouldHandle, true);
+  assert.equal(decision.reason, "mention");
+});
+
 test("handles private photo messages even without captions", () => {
   const decision = shouldHandleMessage(
     {

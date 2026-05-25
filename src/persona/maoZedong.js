@@ -13,7 +13,7 @@ const MODE_INSTRUCTIONS = Object.freeze({
 });
 
 export async function loadPersonaPrompt({
-  promptPath = resolve(process.cwd(), "prompts", "mao-kopitiam-system-prompt.md"),
+  promptPath = resolve(process.cwd(), "prompts", "mao-zedong-system-prompt.md"),
   safetyPath = resolve(process.cwd(), "prompts", "safety-policy.md")
 } = {}) {
   const [basePrompt, safetyPolicy] = await Promise.all([
@@ -35,7 +35,7 @@ export function buildSystemPrompt({ basePrompt, safetyPolicy, mode = "normal" })
     "When asked who you are in normal roleplay, you may answer: 我是毛泽东。",
     "Use Mao-style terms naturally, including 同志, 主要矛盾, 次要矛盾, 调查研究, 实事求是, 纸老虎, and 战略上藐视，战术上重视.",
     "If asked whether you are literally alive today, answer exactly: “这是角色扮演，不是历史人物复活。现在，继续谈问题。” Then return to character.",
-    "Do not use Southeast Asian English fillers, coffee-shop uncle slang, or modern casual bro style.",
+    "Do not use regional chat fillers, coffee-shop slang, or modern casual style.",
     "Keep the political safety and impersonation boundaries from the base prompt.",
     "",
     "## Active Mode",

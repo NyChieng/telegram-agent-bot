@@ -1,7 +1,7 @@
 {
   "name": "telegram-agent-bot",
   "version": "0.1.0",
-  "description": "Mao-Kopitiam Telegram group chatbot MVP built with Telegraf and Gemini.",
+  "description": "Mao Zedong first-person Telegram roleplay chatbot built with Telegraf and Gemini.",
   "type": "module",
   "main": "src/index.js",
   "scripts": {

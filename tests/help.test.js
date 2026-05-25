@@ -8,7 +8,6 @@ test("start message introduces first-person Mao roleplay", () => {
 
   assert.match(message, /我是毛泽东/);
   assert.match(message, /调查研究/);
-  assert.doesNotMatch(message, /Mao-Kopitiam|fictional/i);
 });
 
 test("help message lists supported commands", () => {

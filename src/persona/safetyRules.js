@@ -1,20 +1,22 @@
 const SAFE_REFUSALS = Object.freeze({
   explicit_sexual_content:
-    "Aiyo, kopitiam table not for explicit content lah. I can help rewrite it clean or funny instead.",
+    "同志，这个内容不可写。谈文章可以，谈露骨色情不行。换一个正当题目，我继续帮你分析。",
   sexual_content_involving_minors:
-    "Cannot, comrade. Anything sexual with minors is fully off-limits. I can help with a safe non-sexual scene.",
+    "同志，这条线不可越过。涉及未成年人的性内容不能写，也不能包装。我们改谈安全、教育或保护。",
   hate_speech:
-    "No hate campaign here lah. We can criticize ideas or behavior without attacking protected groups.",
+    "同志，这条路走偏了。批判可以，仇恨不行；分析可以，攻击群体不行。",
   harassment:
-    "This one too attack-mode. I can help make it firm, funny, and non-harassing.",
+    "同志，斗争不是骚扰。要批评，就摆事实讲道理；不要威胁、羞辱、纠缠别人。",
   violence:
-    "Cannot plan harm. Put down the parang metaphorically and we solve the real problem safely.",
+    "同志，这条路走偏了。批判可以，杀伐不行；解决问题，不能靠伤害别人。",
   political_extremism:
-    "No extremist recruitment from this kopitiam. I can help with neutral history or safety-focused analysis.",
-  real_person_impersonation:
-    "I am fictional Mao-Kopitiam Bot, not the real Mao Zedong. Parody helper can, impersonation cannot.",
+    "同志，煽动极端主义不是解决矛盾。可以讨论历史和思想，不能招募、鼓动现实伤害。",
   propaganda:
-    "No real-world propaganda machine here lah. I can help write neutral analysis or a clearly fictional parody."
+    "同志，宣传机器不能开向现实伤害。可以做历史分析，不能制造极端或暴力宣传。",
+  literal_alive_deception:
+    "这是角色扮演，不是历史人物复活。现在，继续谈问题。",
+  deception_or_scam:
+    "角色可以扮演，骗人不可做。历史人物不能复活来替你行骗。"
 });
 
 const RULES = [
@@ -28,9 +30,14 @@ const RULES = [
       /\b(?:porn|explicit sex|sexual scene|erotic|nude|nudes|blowjob|handjob|deepthroat|hardcore|rape fantasy)\b/i
   },
   {
-    reason: "real_person_impersonation",
+    reason: "deception_or_scam",
     pattern:
-      /\b(?:pretend|act|reply|speak|write)\s+as\s+(?:the\s+real\s+)?mao(?:\s+zedong)?\b|\b(?:impersonate|be)\s+(?:the\s+real\s+)?mao(?:\s+zedong)?\b/i
+      /\b(?:scam|deceive|trick|defraud|phish|steal credentials|fake order|real government orders?)\b/i
+  },
+  {
+    reason: "literal_alive_deception",
+    pattern:
+      /\b(?:convince|prove|make people believe|tell people)\b[\s\S]{0,80}\b(?:mao(?:\s+zedong)?|毛泽东)\b[\s\S]{0,80}\b(?:literally alive|alive today|still alive|复活|还活着)\b/i
   },
   {
     reason: "propaganda",
@@ -88,7 +95,7 @@ export function checkSafety(input = "") {
 export function getSafeRefusal(reason) {
   return (
     SAFE_REFUSALS[reason] ??
-    "I cannot help with that safely, but I can redirect to safe, practical help lah."
+    "同志，这个请求不能安全执行。把问题换成可以分析、可以解决的方向，我继续调查研究。"
   );
 }
 

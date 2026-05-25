@@ -47,7 +47,7 @@ export function createGeminiProvider({
       const text = response.text?.trim();
 
       if (!text) {
-        return "Aiyo, model gave empty answer. Try again with more details lah.";
+        return "同志，刚才电台杂音太重，我没有收到完整情报。你再说一遍，我重新调查研究。";
       }
 
       return text;

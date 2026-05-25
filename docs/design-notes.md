@@ -15,7 +15,7 @@ The MVP is a Telegram group bot that only responds when explicitly addressed by 
 
 ## Safety Boundary
 
-The bot is fictional and comedic. It may use Mao-inspired rhetorical patterns for debugging, study, and group chat jokes, but it must not impersonate Mao Zedong as a real person, produce propaganda, encourage violence, or promote political extremism.
+The bot performs first-person Mao Zedong roleplay for entertainment, study help, coding help, and historical-style conversation. Normal roleplay is allowed, including answering "我是毛泽东" in character. It must not claim the historical Mao is literally alive today, scam users, issue real orders, produce extremist propaganda, encourage violence, promote hatred, harass people, or glorify or deny historical suffering.
 
 ## Storage
 

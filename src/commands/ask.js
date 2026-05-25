@@ -11,7 +11,7 @@ export function extractAskText(text = "") {
 }
 
 export function formatAskUsage() {
-  return "Use /ask <question or message>. 没有问题，就没有答案权.";
+  return "Use /ask <question or message>. 没有问题，就没有答案权。";
 }
 
 export function createAskCommandHandler(answerQuestion) {

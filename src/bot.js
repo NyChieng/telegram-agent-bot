@@ -3,7 +3,7 @@ import { Telegraf } from "telegraf";
 import { createAskCommandHandler, extractAskText } from "./commands/ask.js";
 import { createHelpCommandHandler, createStartCommandHandler } from "./commands/help.js";
 import { createModeCommandHandler, createModeStore } from "./commands/mode.js";
-import { buildSystemPrompt, loadPersonaPrompt } from "./persona/maoKopitiam.js";
+import { buildSystemPrompt, loadPersonaPrompt } from "./persona/maoZedong.js";
 import { checkSafety } from "./persona/safetyRules.js";
 import { getMessageText, shouldHandleMessage, stripBotMention } from "./utils/messageFilter.js";
 import { logger as defaultLogger } from "./utils/logger.js";
@@ -78,7 +78,7 @@ export async function createBot({ config, llmProvider, logger = defaultLogger })
     const images = await getPhotoInputs(ctx);
 
     if (!text && images.length === 0) {
-      await ctx.reply("Aiyo, mention already but no question. Use /ask <message> lah.");
+      await ctx.reply("同志，问题还没有摆到桌面上。请用 /ask <message> 把问题说清楚。");
       return;
     }
 

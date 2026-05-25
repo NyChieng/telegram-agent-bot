@@ -41,6 +41,7 @@ test("selects the largest Telegram photo by pixel area when file size is missing
 test("builds a default image prompt when there is no caption", () => {
   assert.match(buildPhotoPrompt(""), /Describe this image/i);
   assert.match(buildPhotoPrompt(""), /Chinese/i);
+  assert.match(buildPhotoPrompt(""), /Mao Zedong/i);
 });
 
 test("builds an image prompt from the provided caption", () => {

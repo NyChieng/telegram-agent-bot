@@ -1,15 +1,17 @@
-# Mao-Kopitiam Telegram Agent Bot
+# Mao Zedong Roleplay Telegram Bot
 
-Node.js Telegram group chatbot built with Telegraf and Gemini. The bot uses a fictional, comedic Malaysian Chinese persona with Mao-inspired rhetorical flavor, while avoiding real-world political propaganda, impersonation, hatred, and violence.
+A Telegram group chatbot that roleplays Mao Zedong in first person for entertainment, study help, coding help, and historical-style conversation.
+
+The bot replies only when addressed directly, supports photo prompts, and keeps safety boundaries against violence, hatred, extremist propaganda, harassment, scams, and historical denial or glorification of suffering.
 
 ## Features
 
-- Replies only when mentioned, replied to, `/ask` is used, or a supported command is used.
+- Replies when mentioned, replied to, `/ask` is used, or a supported command is used.
 - Can respond to photos when sent in private chat, replied to the bot, mentioned in the caption, or sent with `/ask` in the caption.
+- First-person Mao Zedong roleplay prompt with default Chinese responses.
 - In-memory chat modes: `normal`, `study`, `spicy`, `silent`.
 - Gemini provider abstraction with model routing.
-- Pre-LLM safety filter for explicit sexual content, minors, hate, harassment, violence, extremism, real-person impersonation, and propaganda.
-- Prompt files under `prompts/` for persona and safety policy.
+- Pre-LLM safety filter for high-risk requests.
 
 ## Create a Telegram Bot
 
@@ -17,7 +19,7 @@ Node.js Telegram group chatbot built with Telegraf and Gemini. The bot uses a fi
 2. Send `/newbot`.
 3. Follow BotFather's prompts for bot name and username.
 4. Copy the bot token BotFather gives you.
-5. Optional for groups: use `/setprivacy` in BotFather. Keep privacy enabled if you only want commands, or disable it if the bot must detect mentions/replies reliably in busy groups.
+5. For group mentions and photo captions, use `/setprivacy` in BotFather and disable privacy mode if the bot does not see tagged messages.
 
 ## Environment Setup
 
@@ -83,15 +85,15 @@ For photos in groups, mention the bot in the caption, reply to the bot with a ph
 - `/start` - introduce the bot.
 - `/help` - show commands and group behavior.
 - `/ask <message>` - ask a direct question.
-- `/mode normal` - balanced helper.
+- `/mode normal` - balanced roleplay replies.
 - `/mode study` - clearer explanations and examples.
-- `/mode spicy` - stronger jokes, still safe.
+- `/mode spicy` - sharper judgment, still safe.
 - `/mode silent` - shortest useful replies.
 
 Photo examples:
 
 - Send a photo with caption `/ask 用中文解释这张图`.
-- Reply to the bot with a photo and caption `同志们，这是什么 bug?`.
+- Reply to the bot with a photo and caption `同志，这是什么 bug?`.
 - In a group caption, write `@MaoZeDong1bot describe this`.
 
 ## Model Routing
@@ -107,13 +109,12 @@ Gemini routing is implemented in `src/llm/modelRouter.js`:
 
 The safety filter is a simple MVP keyword/rule filter before the LLM call. It reduces obvious high-risk requests but is not a complete moderation system. Gemini safety settings are also enabled at the provider layer.
 
-The persona is fictional parody. It must not impersonate Mao Zedong as a real person, generate real-world propaganda, promote extremism, encourage violence, or target protected groups.
+Normal first-person Mao Zedong roleplay is allowed. The bot should not claim that the historical Mao is literally alive today, scam users, issue real orders, encourage violence, promote hatred, produce extremist propaganda, harass people, or glorify or deny historical suffering.
 
 ## Future Improvements
 
 - Persistent group memory.
 - User nickname memory.
-- Group inside jokes with admin controls.
 - Daily quote or study reminder.
 - Group chat summaries.
 - Database-backed mode and settings.
