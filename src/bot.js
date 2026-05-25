@@ -49,7 +49,7 @@ export async function createBot({ config, llmProvider, logger = defaultLogger })
     } catch (error) {
       logger.error("LLM generation failed", { error: error.message });
       await ctx.reply(
-        "同志们，模型引擎暂时卡住，主要矛盾在后端不是你。先把问题留着，我查明敌情再继续调查研究。"
+        "同志，通信线路出了问题，不是你的问题。稍后再问一次，我继续分析主要矛盾。"
       );
     }
   }
