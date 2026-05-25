@@ -32,7 +32,7 @@ Fill in your real keys locally:
 TELEGRAM_BOT_TOKEN=your-telegram-token
 GEMINI_API_KEY=your-gemini-api-key
 GEMINI_MODEL=gemini-3.5-flash
-GEMINI_FAST_MODEL=gemini-3.1-flash-lite-preview
+GEMINI_FAST_MODEL=gemini-3.1-flash-lite
 GEMINI_REASONING_MODEL=gemini-3.1-pro-preview
 
 OPENAI_API_KEY=
@@ -92,6 +92,7 @@ Gemini routing is implemented in `src/llm/modelRouter.js`:
 - Default casual replies: `GEMINI_MODEL`
 - Very lightweight normal/spicy replies: `GEMINI_FAST_MODEL`
 - Code blocks, stack traces, debugging, assignments, architecture, explain, and summarize requests: `GEMINI_REASONING_MODEL`
+- If a routed model is unavailable or quota-limited, the bot retries with `GEMINI_MODEL` before showing an error.
 
 ## Safety Limitations
 

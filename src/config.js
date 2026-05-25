@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const DEFAULT_GEMINI_MODEL = "gemini-3.5-flash";
-const DEFAULT_GEMINI_FAST_MODEL = "gemini-3.1-flash-lite-preview";
+const DEFAULT_GEMINI_FAST_MODEL = "gemini-3.1-flash-lite";
 const DEFAULT_GEMINI_REASONING_MODEL = "gemini-3.1-pro-preview";
 const DEFAULT_MODE = "normal";
 

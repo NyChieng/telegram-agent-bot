@@ -34,3 +34,7 @@ test("allows fast model for very lightweight normal and spicy mode replies", () 
   assert.equal(routeGeminiModel({ message: "ok?", mode: "normal", ...models }), models.fastModel);
   assert.equal(routeGeminiModel({ message: "lol", mode: "spicy", ...models }), models.fastModel);
 });
+
+test("uses a callable fast model as the built-in lightweight default", () => {
+  assert.equal(routeGeminiModel({ message: "ok", mode: "normal" }), "gemini-3.1-flash-lite");
+});

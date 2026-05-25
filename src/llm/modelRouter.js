@@ -12,7 +12,7 @@ export function routeGeminiModel({
   message = "",
   mode = "normal",
   defaultModel = "gemini-3.5-flash",
-  fastModel = "gemini-3.1-flash-lite-preview",
+  fastModel = "gemini-3.1-flash-lite",
   reasoningModel = "gemini-3.1-pro-preview"
 } = {}) {
   const text = String(message).trim();

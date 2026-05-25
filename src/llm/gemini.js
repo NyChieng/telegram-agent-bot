@@ -5,7 +5,7 @@ const DEFAULT_GEMINI_MODEL = "gemini-3.5-flash";
 export function createGeminiProvider({
   geminiApiKey,
   geminiModel = DEFAULT_GEMINI_MODEL,
-  geminiFastModel = "gemini-3.1-flash-lite-preview",
+  geminiFastModel = "gemini-3.1-flash-lite",
   geminiReasoningModel = "gemini-3.1-pro-preview"
 }) {
   if (!geminiApiKey) {
@@ -30,19 +30,16 @@ export function createGeminiProvider({
         fastModel: geminiFastModel,
         reasoningModel: geminiReasoningModel
       });
+      const modelCandidates = buildGeminiModelCandidates({
+        selectedModel,
+        defaultModel: geminiModel
+      });
 
-      const response = await ai.models.generateContent({
-        model: selectedModel,
-        contents: prompt,
-        config: {
-          systemInstruction: systemPrompt,
-          safetySettings: [
-            { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-            { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-            { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-            { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" }
-          ]
-        }
+      const response = await generateWithModelFallbacks({
+        ai,
+        modelCandidates,
+        systemPrompt,
+        prompt
       });
 
       const text = response.text?.trim();
@@ -54,4 +51,43 @@ export function createGeminiProvider({
       return text;
     }
   };
+}
+
+export function buildGeminiModelCandidates({ selectedModel, defaultModel }) {
+  return [...new Set([selectedModel, defaultModel].filter(Boolean))];
+}
+
+export function isRetryableGeminiModelError(error) {
+  const message = String(error?.message ?? error);
+  return /code["']?:\s*(?:404|429)|\b(?:404|429)\b/.test(message);
+}
+
+async function generateWithModelFallbacks({ ai, modelCandidates, systemPrompt, prompt }) {
+  let lastError;
+
+  for (const model of modelCandidates) {
+    try {
+      return await ai.models.generateContent({
+        model,
+        contents: prompt,
+        config: {
+          systemInstruction: systemPrompt,
+          safetySettings: [
+            { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+            { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+            { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+            { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" }
+          ]
+        }
+      });
+    } catch (error) {
+      lastError = error;
+
+      if (!isRetryableGeminiModelError(error)) {
+        throw error;
+      }
+    }
+  }
+
+  throw lastError;
 }

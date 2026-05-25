@@ -16,6 +16,8 @@ test("builds a system prompt with base persona, mode, and safety policy", () => 
   assert.match(prompt, /explain/i);
   assert.match(prompt, /同志们|主要矛盾|调查研究/);
   assert.match(prompt, /fictional parody/i);
+  assert.match(prompt, /Chinese|中文|华语/i);
+  assert.match(prompt, /not Mao Zedong|not the real Mao/i);
 });
 
 test("falls back to normal mode instructions for unknown modes", () => {

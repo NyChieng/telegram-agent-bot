@@ -46,7 +46,9 @@ export async function createBot({ config, llmProvider, logger = defaultLogger })
       await ctx.reply(reply);
     } catch (error) {
       logger.error("LLM generation failed", { error: error.message });
-      await ctx.reply("Aiyo, engine stalled. Send logs later, we continue the campaign.");
+      await ctx.reply(
+        "同志们，模型引擎暂时卡住，主要矛盾在后端不是你。先把问题留着，我查明敌情再继续调查研究。"
+      );
     }
   }
 
